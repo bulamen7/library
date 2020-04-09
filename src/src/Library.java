@@ -4,7 +4,7 @@ class Library {
         Book book2 = new Book("Java. Efektywne programowanie. Wydanie II", "Joshua Bloch", 2009, 352, "Helion",
                 "9788324620845");
         Book book3 = new Book("SCJP Sun Certified Programmer for Java 6 Study Guide", "Bert Bates, Katherine Sierra",
-                2008, 851, "McGraw-Hill Osborne Media", "9780071591065");
+                2008, 851, "McGraw-Hill Osborne Media");
         
         book1.printInfo();
         book2.printInfo();
