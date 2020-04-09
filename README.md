@@ -1,1 +1,2 @@
-# library
+## biblioteka
+# projekt w celach szkoleniowych
