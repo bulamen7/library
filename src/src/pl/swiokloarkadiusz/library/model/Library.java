@@ -2,19 +2,37 @@ package pl.swiokloarkadiusz.library.model;
 
 public class Library {
     
-    private int maxBooks = 1000;
-    private Book[] books = new Book[maxBooks];
+    private static final int MAX_BOOKS = 1000;
+    private static final int MAX_MAGAZINE = 1000;
+    private Book[] books = new Book[MAX_BOOKS];
+    private Magazin[] magazines = new Magazin[MAX_MAGAZINE];
     private int booksNumber = 0;
+    private int magazinesNumber = 0;
     
     public void addBook(Book book) {
-        if (booksNumber < maxBooks) {
+        if (booksNumber < MAX_BOOKS) {
             books[booksNumber] = book;
             booksNumber++;
         } else {
             System.out.println("Nie ma miejsca");
         }
     }
-    
+    public void addMagazine(Magazin magazin) {
+        if (magazinesNumber < MAX_MAGAZINE) {
+            magazines[magazinesNumber] = magazin;
+            magazinesNumber++;
+        } else {
+            System.out.println("Nie ma miejsca");
+        }
+    }
+    public void printMagazines() {
+        if (magazinesNumber == 0) {
+            System.out.println("Brak magazynu");
+        }
+        for (int i = 0; i < magazinesNumber; i++) {
+            magazines[i].printInfo();
+        }
+    }
     public void printBooks() {
         if (booksNumber == 0) {
             System.out.println("Brak ksiazek");

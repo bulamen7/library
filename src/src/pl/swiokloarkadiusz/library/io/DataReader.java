@@ -1,6 +1,7 @@
 package pl.swiokloarkadiusz.library.io;
 
 import pl.swiokloarkadiusz.library.model.Book;
+import pl.swiokloarkadiusz.library.model.Magazin;
 
 import java.util.Scanner;
 
@@ -22,6 +23,22 @@ public class DataReader {
         System.out.println("ISBN: ");
         String isbn = scanner.nextLine();
         return new Book(title, author, releaseDate, pages, publisher, isbn);
+    }
+    
+    public Magazin readAndCreateMagazin() {
+        System.out.println("Tytul: ");
+        String title = scanner.nextLine();
+        System.out.println("Wydawnictwo: ");
+        String publisher = scanner.nextLine();
+        System.out.println("Język: ");
+        String language = scanner.nextLine();
+        System.out.println("Rok wydania: ");
+        int year = getInt();
+        System.out.println("miesiac ");
+        int month = getInt();
+        System.out.println("dzien ");
+        int day = getInt();
+        return new Magazin(title, publisher, language, year, month, day);
     }
     
     public int getInt() {
