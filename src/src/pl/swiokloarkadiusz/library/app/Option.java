@@ -1,27 +1,40 @@
 package pl.swiokloarkadiusz.library.app;
 
-enum Option {
+import pl.swiokloarkadiusz.library.exeption.NoSuchOptionException;
 
-    EXIT(1, "Wyjscie z programu"),
-    ADD_BOOK(2, "Dodanie ksiazki"),
-    ADD_MAGAZIN(3, "Dodanie magazynu"),
-    PRINT_BOOKS(4, "Wyswietlenie ksiazek"),
-    PRINT_MAGAZIN(5, "Wyswietlenie magazynu");
+enum Option {
+    EXIT(0, "Wyjście z programu"),
+    ADD_BOOK(1, "Dodanie książki"),
+    ADD_MAGAZINE(2,"Dodanie magazynu/gazety"),
+    PRINT_BOOKS(3, "Wyświetlenie dostępnych książek"),
+    PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet");
 
     private int value;
     private String description;
 
-    Option(int value, String description) {
-        this.value = value;
-        this.description = description;
+    public int getValue() {
+        return value;
     }
 
-    static Option createFromInt(int number) {
-        return Option.values()[number];
+    public String getDescription() {
+        return description;
+    }
+
+    Option(int value, String desc) {
+        this.value = value;
+        this.description = desc;
     }
 
     @Override
     public String toString() {
         return value + " - " + description;
+    }
+
+    static Option createFromInt(int option) throws NoSuchOptionException {
+        try {
+            return Option.values()[option];
+        } catch(ArrayIndexOutOfBoundsException e) {
+            throw new NoSuchOptionException("Brak opcji o id " + option);
+        }
     }
 }
