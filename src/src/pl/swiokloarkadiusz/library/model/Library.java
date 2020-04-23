@@ -1,6 +1,8 @@
 package pl.swiokloarkadiusz.library.model;
 
-public class Library {
+import java.io.Serializable;
+
+public class Library implements Serializable {
 
     private static final int MAX_PUBLICATONS = 2000;
     private int publicationsNumber = 0;
@@ -12,14 +14,6 @@ public class Library {
             result[i] = publications[i];
         }
         return result;
-    }
-
-    public void addBook(Book book) {
-        addPublication(book);
-    }
-
-    public void addMagazine(Magazine magazine) {
-        addPublication(magazine);
     }
 
     public void addPublication(Publication publication) {

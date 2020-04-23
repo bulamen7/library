@@ -1,7 +1,12 @@
 package pl.swiokloarkadiusz.library.app;
+
+import pl.swiokloarkadiusz.library.exeption.DataExportException;
+import pl.swiokloarkadiusz.library.exeption.DataImportException;
 import pl.swiokloarkadiusz.library.exeption.NoSuchOptionException;
 import pl.swiokloarkadiusz.library.io.ConsolePrinter;
 import pl.swiokloarkadiusz.library.io.DataReader;
+import pl.swiokloarkadiusz.library.io.file.FileManager;
+import pl.swiokloarkadiusz.library.io.file.FileManagerBuilder;
 import pl.swiokloarkadiusz.library.model.Book;
 import pl.swiokloarkadiusz.library.model.Library;
 import pl.swiokloarkadiusz.library.model.Magazine;
@@ -12,8 +17,21 @@ import java.util.InputMismatchException;
 class LibraryControl {
     private ConsolePrinter printer = new ConsolePrinter();
     private DataReader dataReader = new DataReader(printer);
+    private FileManager fileManager;
 
-    private Library library = new Library();
+    private Library library;
+
+    LibraryControl() {
+        fileManager = new FileManagerBuilder(printer, dataReader).build();
+        try {
+            library = fileManager.importData();
+            printer.printLine("Zaimportowane dane z pliku");
+        } catch (DataImportException e) {
+            printer.printLine(e.getMessage());
+            printer.printLine("Zainicjalizowano nowa baze.");
+            library = new Library();
+        }
+    }
 
     void controlLoop() throws NoSuchFieldException {
         Option option;
@@ -68,7 +86,7 @@ class LibraryControl {
     private void addBook() {
         try {
             Book book = dataReader.readAndCreateBook();
-            library.addBook(book);
+            library.addPublication(book);
         } catch (InputMismatchException e) {
             printer.printLine("Nie udało się utworzyć książki, niepoprawne dane");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -84,7 +102,7 @@ class LibraryControl {
     private void addMagazine() {
         try {
             Magazine magazine = dataReader.readAndCreateMagazine();
-            library.addMagazine(magazine);
+            library.addPublication(magazine);
         } catch (InputMismatchException e) {
             printer.printLine("Nie udało się utworzyć magazynu, niepoprawne dane");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -98,8 +116,50 @@ class LibraryControl {
     }
 
     private void exit() {
+        try {
+            fileManager.exportData(library);
+            printer.printLine("Export danych do pliku zakonczony powodzeniem");
+        } catch (DataExportException e) {
+            printer.printLine(e.getMessage());
+        }
         printer.printLine("Koniec programu, papa!");
-        // zamykamy strumień wejścia
         dataReader.close();
+    }
+
+    enum Option {
+        EXIT(0, "Wyjście z programu"),
+        ADD_BOOK(1, "Dodanie książki"),
+        ADD_MAGAZINE(2, "Dodanie magazynu/gazety"),
+        PRINT_BOOKS(3, "Wyświetlenie dostępnych książek"),
+        PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet");
+
+        private int value;
+        private String description;
+
+        public int getValue() {
+            return value;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        Option(int value, String desc) {
+            this.value = value;
+            this.description = desc;
+        }
+
+        @Override
+        public String toString() {
+            return value + " - " + description;
+        }
+
+        static Option createFromInt(int option) throws NoSuchOptionException {
+            try {
+                return Option.values()[option];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new NoSuchOptionException("Brak opcji o id " + option);
+            }
+        }
     }
 }

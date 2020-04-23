@@ -3,6 +3,8 @@ package pl.swiokloarkadiusz.library.model;
 import java.util.Objects;
 
 public class Magazine extends Publication {
+    public static final String TYPE = "magazyn";
+
     private int month;
     private int day;
     private String language;
@@ -53,6 +55,18 @@ public class Magazine extends Publication {
     @Override
     public int hashCode() {
         return Objects.hash(month, day, language);
+    }
+
+    @Override
+    public String toCSV() {
+            return TYPE + ";" +
+                    getTitle() + "; " +
+                    getPublisher() + "; " +
+                    getYear() + "; " +
+                    "month='" + month + '\'' +
+                    ", day=" + day +
+                    ", language='" + language + '\'' +
+                    '}';
     }
 
     @Override

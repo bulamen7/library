@@ -1,6 +1,8 @@
 package pl.swiokloarkadiusz.library.model;
 
-public class Publication {
+import java.io.Serializable;
+
+public abstract class Publication implements Serializable {
     private int year;
     private String title;
     private String publisher;
@@ -28,6 +30,9 @@ public class Publication {
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
+
+    public abstract String toCSV();
+
 
     @Override
     public String toString() {
