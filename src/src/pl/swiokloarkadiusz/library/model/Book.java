@@ -3,27 +3,28 @@ package pl.swiokloarkadiusz.library.model;
 import java.util.Objects;
 
 public class Book extends Publication {
-    public static final String TYPE = "ksiazka";
-
+    public static final String TYPE = "Książka";
+    // Pola
     private String author;
     private int pages;
     private String isbn;
 
-    public Book(String title, String author, int year, int pages, String publisher, String isbn) {
-        this.setTitle(title);
-        this.setYear(year);
-        this.setPublisher(publisher);
-        this.author = author;
+    // Konstruktory
+    public Book(String title, String author, int year, int pages, String publisher,
+                String isbn) {
+        super(title, publisher, year);
         this.pages = pages;
+        this.author = author;
         this.isbn = isbn;
     }
 
-    public String getAuthor() {
-        return author;
+    // settery i gettery
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public int getPages() {
@@ -34,18 +35,35 @@ public class Book extends Publication {
         this.pages = pages;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    @Override
+    public String toCsv() {
+        return (TYPE + ";") +
+                getTitle() + ";" +
+                getPublisher() + ";" +
+                getYear() + ";" +
+                author + ";" +
+                pages + ";" +
+                isbn + "";
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", " + author + ", " + pages + ", " + isbn;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Book book = (Book) o;
         return pages == book.pages &&
                 Objects.equals(author, book.author) &&
@@ -54,28 +72,6 @@ public class Book extends Publication {
 
     @Override
     public int hashCode() {
-        return Objects.hash(author, pages, isbn);
-    }
-
-
-    @Override
-    public String toCSV() {
-        return TYPE + ";" +
-                getTitle() + "; " +
-                getPublisher() + "; " +
-                getYear() + "; " +
-                "author='" + author + '\'' +
-                ", pages=" + pages +
-                ", isbn='" + isbn + '\'' +
-                '}';
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() +
-                "author='" + author + '\'' +
-                ", pages=" + pages +
-                ", isbn='" + isbn + '\'' +
-                '}';
+        return Objects.hash(super.hashCode(), author, pages, isbn);
     }
 }

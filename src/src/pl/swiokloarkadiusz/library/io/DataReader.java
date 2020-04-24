@@ -3,7 +3,6 @@ package pl.swiokloarkadiusz.library.io;
 import pl.swiokloarkadiusz.library.model.Book;
 import pl.swiokloarkadiusz.library.model.Magazine;
 
-import java.io.Console;
 import java.util.Scanner;
 
 public class DataReader {
@@ -25,8 +24,9 @@ public class DataReader {
             sc.nextLine();
         }
     }
+
     public String getString() {
-            return sc.nextLine();
+        return sc.nextLine();
     }
 
     public Book readAndCreateBook() {
@@ -62,4 +62,5 @@ public class DataReader {
 
         return new Magazine(title, publisher, language, year, month, day);
     }
+
 }

@@ -8,15 +8,11 @@ import pl.swiokloarkadiusz.library.model.Library;
 import pl.swiokloarkadiusz.library.model.Magazine;
 import pl.swiokloarkadiusz.library.model.Publication;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
-public class CSVFileManager implements FileManager {
-    public static final String FILE_NAME = "Library.csv";
+public class CsvFileManager implements FileManager {
+    private static final String FILE_NAME = "Library.csv";
 
     @Override
     public void exportData(Library library) {
@@ -24,7 +20,7 @@ public class CSVFileManager implements FileManager {
         try (FileWriter fileWriter = new FileWriter(FILE_NAME);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
             for (Publication publication : publications) {
-                bufferedWriter.write(publication.toCSV());
+                bufferedWriter.write(publication.toCsv());
                 bufferedWriter.newLine();
             }
         } catch (IOException e) {
@@ -47,13 +43,12 @@ public class CSVFileManager implements FileManager {
         return library;
     }
 
-
     private Publication createObjectFromString(String csvText) {
         String[] split = csvText.split(";");
         String type = split[0];
-        if(Book.TYPE.equals(type)) {
+        if (Book.TYPE.equals(type)) {
             return createBook(split);
-        } else if(Magazine.TYPE.equals(type)) {
+        } else if (Magazine.TYPE.equals(type)) {
             return createMagazine(split);
         }
         throw new InvalidDataException("Nieznany typ publikacji: " + type);
