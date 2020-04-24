@@ -2,6 +2,7 @@ package pl.swiokloarkadiusz.library.app;
 
 import pl.swiokloarkadiusz.library.exeption.DataExportException;
 import pl.swiokloarkadiusz.library.exeption.DataImportException;
+import pl.swiokloarkadiusz.library.exeption.InvalidDataException;
 import pl.swiokloarkadiusz.library.exeption.NoSuchOptionException;
 import pl.swiokloarkadiusz.library.io.ConsolePrinter;
 import pl.swiokloarkadiusz.library.io.DataReader;
@@ -26,7 +27,7 @@ class LibraryControl {
         try {
             library = fileManager.importData();
             printer.printLine("Zaimportowane dane z pliku");
-        } catch (DataImportException e) {
+        } catch (DataImportException | InvalidDataException e) {
             printer.printLine(e.getMessage());
             printer.printLine("Zainicjalizowano nowa baze.");
             library = new Library();
